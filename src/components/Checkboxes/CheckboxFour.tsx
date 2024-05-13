@@ -32,7 +32,7 @@ const CheckboxFour = () => {
             </span>
           </div>
         </div>
-        Checkbox Text
+        Checkbox Text khaled
       </label>
     </div>
   );

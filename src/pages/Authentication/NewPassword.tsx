@@ -7,40 +7,39 @@ import PublicLayout from '../../layout/PublicLayout';
 import axios from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
 
-const LOGIN_URL = 'users/login/';
+const PASSWORD_RESET_URL= 'users/password-reset-complete/';
 
-const SignIn: React.FC = () => {
+const NewPassword: React.FC = () => {
   // const { setAuth } = useContext(AuthContext)
     // const { message } = useParams<{ message: string }>();
   const { setAuth } = useAuth();
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || '/';
-  const message = new URLSearchParams(location.search).get('message');
-  const error = new URLSearchParams(location.search).get('error');
-  const [successMsg, setSuccessMsg] = useState(message);
-  const [errMsg, setErrMsg] = useState(error);
+  const searchParams = new URLSearchParams(location.search);
+  const tokenValid = searchParams.get("token_valid");
+  const message = searchParams.get("message");
+  const uidb64 = searchParams.get("uidb64");
+  const token = searchParams.get("token");
+
+  const [errMsg, setErrMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
+
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        LOGIN_URL,
-        JSON.stringify({ email, password }),
+      const response = await axios.patch(
+        PASSWORD_RESET_URL,
+        JSON.stringify({ password, token, uidb64 }),
         {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true,
         },
       );
-      console.log(JSON.stringify(response?.data));
-      const token = response?.data?.token;
-      const name = response?.data?.name;
-      setAuth({ email, token, name });
-      setEmail('');
-      setPassword('');
-      navigate(from, { replace: true });
+      navigate('/auth/signin?message=new password has been set successfuly, You can Login now');
     } catch (err) {
       if (!err?.response) {
         setErrMsg('Server Problem');
@@ -59,11 +58,13 @@ const SignIn: React.FC = () => {
 
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex items-center justify-center h-screen">
-            <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
+
+
+          <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
-              <span className="mb-1.5 block font-medium">Start for free</span>
+              <span className="mb-1.5 block font-medium">boukhalfa khaled</span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                Sign In to TailAdmin
+                Set New Password
               </h2>
               {!errMsg ? (
                 ''
@@ -89,7 +90,7 @@ const SignIn: React.FC = () => {
                   </div>
                 </div>
               )}
-              {errMsg || !successMsg ? (
+              {!successMsg ? (
                 ''
               ) : (
                 <div className="flex w-full border-l-6 border-[#34D399] bg-[#34D399] bg-opacity-[15%] px-7 py-8 shadow-md dark:bg-[#1B1B24] dark:bg-opacity-30 md:p-4 mb-3">
@@ -119,13 +120,14 @@ const SignIn: React.FC = () => {
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Email
+                    Password
                   </label>
                   <div className="relative">
                     <input
-                      type="email"
+                      type="password"
+                      value={password}
                       placeholder="Enter your email"
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => setPassword(e.target.value)}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
@@ -150,25 +152,16 @@ const SignIn: React.FC = () => {
                 </div>
 
                 <div className="mb-6">
-                  <div className="flex items-center justify-between">
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
-                      Password
+                      Confirm Password
                     </label>
-                    <div className="text-sm">
-                      <Link
-                        to={'/auth/forgetPassword'}
-                        className="font-semibold text-white-600 hover:text-indigo-500"
-                      >
-                        Forgot password?
-                      </Link>
-                    </div>
-                  </div>
 
                   <div className="relative">
                     <input
                       type="password"
+                      value={password2}
                       placeholder="6+ Characters, 1 Capital letter"
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => setPassword2(e.target.value)}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
@@ -203,15 +196,6 @@ const SignIn: React.FC = () => {
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                   />
                 </div>
-
-                <div className="mt-6 text-center">
-                  <p>
-                    Don’t have any account?{' '}
-                    <Link to="/auth/signup" className="text-primary">
-                      Sign Up
-                    </Link>
-                  </p>
-                </div>
               </form>
             </div>
           </div>
@@ -221,4 +205,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default NewPassword;

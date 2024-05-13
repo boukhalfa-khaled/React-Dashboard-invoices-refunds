@@ -24,6 +24,14 @@ import PersistLogin from './pages/PersistLogin';
 import AddCustomer from './pages/AddCustomer';
 import EditCustomer from './pages/EditCustomer';
 import ViewCustomer from './pages/ViewCustomer';
+import AddDocument from './pages/AddDocument';
+import EditDocument from './pages/EditDocument';
+import AddService from './pages/AddService';
+import AddInvoice from './pages/AddInvoice';
+import EditService from './pages/EditService';
+import EditInvoice from './pages/EditInvoice';
+import ForgetPassword from './pages/Authentication/ForgetPassword';
+import NewPassword from './pages/Authentication/NewPassword';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -82,6 +90,15 @@ function App() {
               }
             />
             <Route
+              path="/edit-service/:id"
+              element={
+                <>
+                  <PageTitle title="Invoices | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                  <EditService/>
+                </>
+              }
+            />
+            <Route
               path="/services"
               element={
                 <>
@@ -111,6 +128,24 @@ function App() {
             }
           />
           <Route
+            path="/edit-document/:id"
+            element={
+              <>
+                <PageTitle title="Docuemnts | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <EditDocument/>
+              </>
+            }
+          />
+          <Route
+            path="/add-document/:id"
+            element={
+              <>
+                <PageTitle title="Docuemnts | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <AddDocument/>
+              </>
+            }
+          />
+          <Route
             path="/add-customer"
             element={
               <>
@@ -129,6 +164,37 @@ function App() {
               </>
             }
           />
+          <Route
+            path="/add-service"
+            element={
+              <>
+                <PageTitle title="Services | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <AddService/>
+              </>
+            }
+          />
+          <Route
+            path="/add-invoice"
+            element={
+              <>
+                <PageTitle title="Invoices | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <AddInvoice/>
+              </>
+            }
+          />
+          <Route
+            path="/edit-invoice/:id"
+            element={
+              <>
+                <PageTitle title="Invoices | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <EditInvoice/>
+              </>
+            }
+          />
+
+
+
+
         </Route>
         {/* private routes */}
         <Route
@@ -221,6 +287,26 @@ function App() {
             </>
           }
         />
+        <Route
+          path="/auth/forgetPassword"
+          element={
+            <>
+              <PageTitle title="Forget Password| TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <ForgetPassword/>
+            </>
+          }
+        />
+
+        <Route
+          path="/auth/new-password"
+          element={
+            <>
+              <PageTitle title="Forget Password| TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <NewPassword/>
+            </>
+          }
+        />
+
       </Routes>
     </>
   );

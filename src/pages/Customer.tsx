@@ -11,7 +11,7 @@ const Customer = () => {
       <div className="flex flex-col gap-10">
         <CustomerTable />
       </div>
-      <div className="flex  gap-10">
+      <div className="flex justify-end gap-10">
         <Link
           to="/add-customer"
           className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary py-4 px-10 my-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
